@@ -9,171 +9,38 @@
   <link href="https://googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #f0f0f0;
-      --surface: #ffffff;
-      --surface2: #f7f7f7;
-      --border: #e0e0e0;
-      --border2: #d0d0d0;
-      --text: #111111;
-      --text2: #555555;
-      --text3: #999999;
-      --accent: #1a1a1a;
-      --accent2: #333333;
-      --highlight: #e8e8e8;
-      --radius: 16px;
-      --shadow: 0 2px 12px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04);
-      --shadow-hover: 0 8px 30px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+      --bg: #f0f0f0; --surface: #ffffff; --border: #e0e0e0; --border2: #d0d0d0;
+      --text: #111111; --text2: #555555; --text3: #999999; --accent: #1a1a1a;
+      --radius: 16px; --shadow: 0 2px 12px rgba(0,0,0,0.07); --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
     }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* --- Background texture --- */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        radial-gradient(circle at 20% 20%, rgba(200,200,200,0.3) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(180,180,180,0.2) 0%, transparent 50%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* --- Header --- */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(240,240,240,0.85);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 32px;
-    }
-
-    .header-inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 66px;
-      gap: 20px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-
-    .logo-icon {
-      width: 36px;
-      height: 36px;
-      background: var(--accent);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: radial-gradient(circle at 20% 20%, rgba(200,200,200,0.3) 0%, transparent 50%); z-index: 0; pointer-events: none; }
+    header { position: sticky; top: 0; z-index: 100; background: rgba(240,240,240,0.85); backdrop-filter: blur(18px); border-bottom: 1px solid var(--border); padding: 0 32px; }
+    .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 66px; gap: 20px; }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-icon { width: 36px; height: 36px; background: var(--accent); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
     .logo-icon svg { width: 18px; height: 18px; fill: white; }
-
-    .logo-text {
-      font-family: 'Syne', sans-serif;
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--text);
-    }
-
-    .logo-text span { color: var(--text3); font-weight: 400; }
-
-    /* --- Search --- */
-    .search-wrap {
-      flex: 1;
-      max-width: 420px;
-      position: relative;
-    }
-
-    .search-wrap svg {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 16px;
-      height: 16px;
-      stroke: var(--text3);
-      fill: none;
-      stroke-width: 2;
-    }
-
-    #search {
-      width: 100%;
-      padding: 10px 16px 10px 40px;
-      border: 1px solid var(--border2);
-      border-radius: 50px;
-      background: var(--surface);
-      outline: none;
-      box-shadow: var(--shadow);
-    }
-
-    /* --- Grid & Cards --- */
-    .grid-section { padding: 0 32px 80px; max-width: 1400px; margin: 0 auto; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      cursor: pointer;
-      transition: all 0.22s ease;
-      box-shadow: var(--shadow);
-      animation: fadeUp 0.5s ease both;
-    }
-
+    .logo-text { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--text); }
+    .search-wrap { flex: 1; max-width: 420px; position: relative; }
+    #search { width: 100%; padding: 10px 16px 10px 40px; border: 1px solid var(--border2); border-radius: 50px; background: var(--surface); outline: none; }
+    .grid-section { padding: 40px 32px 80px; max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: all 0.22s ease; box-shadow: var(--shadow); animation: fadeUp 0.5s ease both; }
     .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
-
-    .card-thumb { width: 100%; aspect-ratio: 16/10; position: relative; }
-    .card-bg { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px; }
-
-    .card-play {
-      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-      background: rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.2s;
-    }
+    .card-thumb { width: 100%; aspect-ratio: 16/10; position: relative; display: flex; align-items: center; justify-content: center; font-size: 50px; background: #eee; }
+    .card-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.2s; }
     .card:hover .card-play { opacity: 1; }
-
-    .card-play-btn { width: 48px; height: 48px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-    .card-play-btn svg { width: 18px; height: 18px; fill: var(--accent); margin-left: 2px; }
-
-    .card-body { padding: 14px 16px 16px; }
-    .card-tag { font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--text3); }
-    .card-name { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; }
-
-    /* --- Modal --- */
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(10,10,10,0.75); backdrop-filter: blur(8px);
-      z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px;
-    }
+    .card-play-btn { width: 45px; height: 45px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .card-body { padding: 15px; }
+    .card-name { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--text); }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
     .modal-overlay.open { display: flex; }
-    .modal {
-      background: var(--surface); border-radius: 20px; width: 100%; max-width: 1080px; height: 80vh;
-      display: flex; flex-direction: column; overflow: hidden;
-    }
-    .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+    .modal { background: var(--surface); border-radius: 20px; width: 100%; max-width: 1000px; height: 80vh; display: flex; flex-direction: column; overflow: hidden; }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; border-bottom: 1px solid var(--border); }
     .modal-frame { flex: 1; background: #000; }
     iframe { width: 100%; height: 100%; border: none; }
-
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
@@ -182,53 +49,125 @@
   <div class="header-inner">
     <a class="logo" href="#">
       <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-      <div class="logo-text">VAULT<span>PLAY</span></div>
+      <div class="logo-text">VAULTPLAY</div>
     </a>
     <div class="search-wrap">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input id="search" type="text" placeholder="Search games…" onkeyup="filterGames()">
+      <input id="search" type="text" placeholder="Search 22 games..." onkeyup="filterGames()">
     </div>
   </div>
 </header>
 
-<div class="grid-section" style="margin-top: 40px;">
+<div class="grid-section">
   <div class="grid" id="grid">
-    <!-- Game Card Example: Repeat for all files -->
-    <div class="card" onclick="openGame('Sandboxels.html', 'Sandboxels', '⚗️')">
-      <div class="card-thumb">
-        <div class="card-bg" style="background:#e8e8e8">⚗️</div>
-        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
-      </div>
-      <div class="card-body">
-        <div class="card-tag">Sandbox</div>
-        <div class="card-name">Sandboxels</div>
-      </div>
-    </div>
-
+    <!-- Row 1 -->
     <div class="card" onclick="openGame('1v1.LoL.html', '1v1.LoL', '🔫')">
-        <div class="card-thumb"><div class="card-bg" style="background:#d0d0d0">🔫</div><div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div></div>
-        <div class="card-body"><div class="card-tag">Action</div><div class="card-name">1v1.LoL</div></div>
+      <div class="card-thumb">🔫<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">1v1.LoL</div></div>
+    </div>
+    <div class="card" onclick="openGame('Basket Random.html', 'Basket Random', '🏀')">
+      <div class="card-thumb">🏀<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Basket Random</div></div>
+    </div>
+    <div class="card" onclick="openGame('BitLife.html', 'BitLife', '👶')">
+      <div class="card-thumb">👶<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">BitLife</div></div>
+    </div>
+    <div class="card" onclick="openGame('Bottle Jump 3D.html', 'Bottle Jump 3D', '🍾')">
+      <div class="card-thumb">🍾<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Bottle Jump 3D</div></div>
     </div>
 
-    <div class="card" onclick="openGame('Basket Random.html', 'Basket Random', '🏀')">
-        <div class="card-thumb"><div class="card-bg" style="background:#e0e0e0">🏀</div><div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div></div>
-        <div class="card-body"><div class="card-tag">Sports</div><div class="card-name">Basket Random</div></div>
+    <!-- Row 2 -->
+    <div class="card" onclick="openGame('Bouncemasters.html', 'Bouncemasters', '🐧')">
+      <div class="card-thumb">🐧<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Bouncemasters</div></div>
     </div>
-    
-    <!-- Add more cards for Kindergarten.html, BitLife.html, etc. following the pattern above -->
+    <div class="card" onclick="openGame('Bowmasters.html', 'Bowmasters', '🏹')">
+      <div class="card-thumb">🏹<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Bowmasters</div></div>
+    </div>
+    <div class="card" onclick="openGame('Brotato.html', 'Brotato', '🥔')">
+      <div class="card-thumb">🥔<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Brotato</div></div>
+    </div>
+    <div class="card" onclick="openGame('BuckshotRoulette.html', 'Buckshot Roulette', '🎲')">
+      <div class="card-thumb">🎲<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Buckshot Roulette</div></div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="card" onclick="openGame('Clover Pit.html', 'Clover Pit', '🍀')">
+      <div class="card-thumb">🍀<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Clover Pit</div></div>
+    </div>
+    <div class="card" onclick="openGame('Cluster Rush.html', 'Cluster Rush', '🚚')">
+      <div class="card-thumb">🚚<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Cluster Rush</div></div>
+    </div>
+    <div class="card" onclick="openGame('Cookie Clicker.html', 'Cookie Clicker', '🍪')">
+      <div class="card-thumb">🍪<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Cookie Clicker</div></div>
+    </div>
+    <div class="card" onclick="openGame('Draw Climber.html', 'Draw Climber', '🧗')">
+      <div class="card-thumb">🧗<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Draw Climber</div></div>
+    </div>
+
+    <!-- Row 4 -->
+    <div class="card" onclick="openGame('Draw Joust.html', 'Draw Joust', '⚔️')">
+      <div class="card-thumb">⚔️<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Draw Joust</div></div>
+    </div>
+    <div class="card" onclick="openGame('FiveNightsatEpsteins.html', 'FNA Epsteins', '🔦')">
+      <div class="card-thumb">🔦<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Five Nights at Epsteins</div></div>
+    </div>
+    <div class="card" onclick="openGame('Kindergarten.html', 'Kindergarten', '🏫')">
+      <div class="card-thumb">🏫<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Kindergarten</div></div>
+    </div>
+    <div class="card" onclick="openGame('Kindergarten2.html', 'Kindergarten 2', '🎒')">
+      <div class="card-thumb">🎒<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Kindergarten 2</div></div>
+    </div>
+
+    <!-- Row 5 -->
+    <div class="card" onclick="openGame('Kindergarten3.html', 'Kindergarten 3', '🖍️')">
+      <div class="card-thumb">🖍️<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Kindergarten 3</div></div>
+    </div>
+    <div class="card" onclick="openGame('Learn to Fly 3.html', 'Learn to Fly 3', '🚀')">
+      <div class="card-thumb">🚀<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Learn to Fly 3</div></div>
+    </div>
+    <div class="card" onclick="openGame('Learn to Fly Idle.html', 'Learn to Fly Idle', '❄️')">
+      <div class="card-thumb">❄️<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Learn to Fly Idle</div></div>
+    </div>
+    <div class="card" onclick="openGame('Minecraft Beta 1.7.3.html', 'Minecraft Beta', '🧱')">
+      <div class="card-thumb">🧱<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Minecraft Beta 1.7.3</div></div>
+    </div>
+
+    <!-- Row 6 -->
+    <div class="card" onclick="openGame('People Playground.html', 'People Playground', '🧍')">
+      <div class="card-thumb">🧍<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">People Playground</div></div>
+    </div>
+    <div class="card" onclick="openGame('Sandboxels.html', 'Sandboxels', '⚗️')">
+      <div class="card-thumb">⚗️<div class="card-play"><div class="card-play-btn">▶</div></div></div>
+      <div class="card-body"><div class="card-name">Sandboxels</div></div>
+    </div>
   </div>
 </div>
 
-<!-- Modal Overlay -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-title" id="modalTitle">Game</div>
-      <button onclick="closeGame()" style="padding: 5px 10px; cursor: pointer;">Close</button>
+      <div id="modalTitle" style="font-weight: 700;">Game Name</div>
+      <button onclick="closeGame()" style="padding: 5px 12px; cursor: pointer; border-radius: 8px; border: 1px solid #ccc;">Close</button>
     </div>
-    <div class="modal-frame">
-      <iframe id="gameFrame" src=""></iframe>
-    </div>
+    <div class="modal-frame"><iframe id="gameFrame" src=""></iframe></div>
   </div>
 </div>
 
@@ -237,13 +176,13 @@
     document.getElementById('modalTitle').innerHTML = emoji + " " + name;
     document.getElementById('gameFrame').src = file;
     document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
   }
-
   function closeGame() {
     document.getElementById('modalOverlay').classList.remove('open');
     document.getElementById('gameFrame').src = "";
+    document.body.style.overflow = 'auto';
   }
-
   function filterGames() {
     let input = document.getElementById('search').value.toLowerCase();
     let cards = document.getElementsByClassName('card');
@@ -253,6 +192,5 @@
     }
   }
 </script>
-
 </body>
 </html>
