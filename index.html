@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VAULTPLAY — Free Online Games</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f0f0f0;
+      --surface: #ffffff;
+      --surface2: #f7f7f7;
+      --border: #e0e0e0;
+      --border2: #d0d0d0;
+      --text: #111111;
+      --text2: #555555;
+      --text3: #999999;
+      --accent: #1a1a1a;
+      --accent2: #333333;
+      --highlight: #e8e8e8;
+      --glow: rgba(0,0,0,0.06);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow: 0 2px 12px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04);
+      --shadow-hover: 0 8px 30px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── Background texture ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(200,200,200,0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(180,180,180,0.2) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── Header ─── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(240,240,240,0.85);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 66px;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-icon svg { width: 18px; height: 18px; fill: white; }
+
+    .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    .logo-text span { color: var(--text3); font-weight: 400; }
+
+    /* ─── Search ─── */
+    .search-wrap {
+      flex: 1;
+      max-width: 420px;
+      position: relative;
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      stroke: var(--text3);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      pointer-events: none;
+    }
+
+    #search {
+      width: 100%;
+      padding: 10px 16px 10px 40px;
+      border: 1px solid var(--border2);
+      border-radius: 50px;
+      background: var(--surface);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow);
+    }
+
+    #search:focus {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.06), var(--shadow);
+    }
+
+    #search::placeholder { color: var(--text3); }
+
+    .header-count {
+      font-size: 13px;
+      color: var(--text3);
+      white-space: nowrap;
+      font-weight: 300;
+    }
+
+    /* ─── Hero ─── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      padding: 56px 32px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text2);
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(0.8); }
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(36px, 5vw, 62px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      color: var(--text);
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--text3);
+    }
+
+    .hero p {
+      margin-top: 14px;
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--text2);
+      max-width: 480px;
+    }
+
+    /* ─── Filter bar ─── */
+    .filters {
+      position: relative;
+      z-index: 1;
+      padding: 0 32px 28px;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .filter-btn {
+      padding: 7px 16px;
+      border-radius: 50px;
+      border: 1px solid var(--border2);
+      background: var(--surface);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text2);
+      cursor: pointer;
+      transition: all 0.18s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    /* ─── Grid ─── */
+    .grid-section {
+      position: relative;
+      z-index: 1;
+      padding: 0 32px 80px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    /* ─── Game Card ─── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease;
+      box-shadow: var(--shadow);
+      animation: fadeUp 0.5s ease both;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-5px) scale(1.01);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .card:hover .card-play {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .card:hover .card-thumb::after {
+      opacity: 1;
+    }
+
+    .card-thumb {
+      width: 100%;
+      aspect-ratio: 16/10;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .card-bg {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover .card-bg { transform: scale(1.06); }
+
+    .card-play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      opacity: 0;
+      transform: scale(0.85);
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .card-play-btn {
+      width: 48px;
+      height: 48px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .card-play-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--accent);
+      margin-left: 2px;
+    }
+
+    .card-body {
+      padding: 14px 16px 16px;
+    }
+
+    .card-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 5px;
+    }
+
+    .card-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .card-desc {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--text3);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    /* ─── Modal / Game Overlay ─── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,10,10,0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: var(--surface);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 1080px;
+      height: min(80vh, 700px);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: 1px solid var(--border);
+    }
+
+    .modal-overlay.open .modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .modal-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-title .modal-emoji { font-size: 22px; }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .modal-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid var(--border2);
+      background: var(--surface2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+
+    .modal-btn:hover { background: var(--highlight); }
+
+    .modal-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--text2);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .modal-frame {
+      flex: 1;
+      overflow: hidden;
+      background: #111;
+    }
+
+    .modal-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* ─── No results ─── */
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text3);
+      font-size: 15px;
+      display: none;
+      grid-column: 1 / -1;
+    }
+
+    .no-results svg {
+      width: 40px;
+      height: 40px;
+      stroke: var(--border2);
+      fill: none;
+      stroke-width: 1.5;
+      margin-bottom: 12px;
+    }
+
+    /* ─── Footer ─── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text3);
+      font-weight: 300;
+    }
+
+    /* ─── Animations ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Stagger cards */
+    .card:nth-child(1)  { animation-delay: 0.05s; }
+    .card:nth-child(2)  { animation-delay: 0.08s; }
+    .card:nth-child(3)  { animation-delay: 0.11s; }
+    .card:nth-child(4)  { animation-delay: 0.14s; }
+    .card:nth-child(5)  { animation-delay: 0.17s; }
+    .card:nth-child(6)  { animation-delay: 0.20s; }
+    .card:nth-child(7)  { animation-delay: 0.23s; }
+    .card:nth-child(8)  { animation-delay: 0.26s; }
+    .card:nth-child(9)  { animation-delay: 0.29s; }
+    .card:nth-child(10) { animation-delay: 0.32s; }
+    .card:nth-child(11) { animation-delay: 0.35s; }
+    .card:nth-child(12) { animation-delay: 0.38s; }
+    .card:nth-child(n+13) { animation-delay: 0.4s; }
+
+    /* ─── Scrollbar ─── */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 640px) {
+      header { padding: 0 16px; }
+      .hero, .filters, .grid-section { padding-left: 16px; padding-right: 16px; }
+      .hero { padding-top: 36px; padding-bottom: 28px; }
+      .header-count { display: none; }
+      .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── Header ─── -->
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      <div class="logo-text">VAULT<span>PLAY</span></div>
+    </a>
+
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input id="search" type="text" placeholder="Search games…" autocomplete="off" />
+    </div>
+
+    <div class="header-count" id="game-count">22 games</div>
+  </div>
+</header>
+
+<!-- ─── Hero ─── -->
+<div class="hero">
+  <div class="hero-tag">Free to play · No download</div>
+  <h1>Play anything,<br /><em>instantly.</em></h1>
+  <p>A handpicked collection of the best browser games — no ads, no limits.</p>
+</div>
+
+<!-- ─── Filters ─── -->
+<div class="filters">
+  <button class="filter-btn active" data-cat="all">All Games</button>
+  <button class="filter-btn" data-cat="action">Action</button>
+  <button class="filter-btn" data-cat="sandbox">Sandbox</button>
+  <button class="filter-btn" data-cat="idle">Idle / Clicker</button>
+  <button class="filter-btn" data-cat="sports">Sports</button>
+  <button class="filter-btn" data-cat="survival">Survival</button>
+</div>
+
+<!-- ─── Grid ─── -->
+<div class="grid-section">
+  <div class="grid" id="grid">
+
+    <div class="card" data-cat="sandbox" data-name="Sandboxels" data-file="Sandboxels.html" data-emoji="⚗️" data-color="linear-gradient(135deg,#e8e8e8,#c8c8c8)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#e8e8e8,#c8c8c8)">⚗️</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Sandbox</div>
+        <div class="card-name">Sandboxels</div>
+        <div class="card-desc">Pixel sandbox with falling elements</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="action" data-name="Draw Joust" data-file="Draw_Joust.html" data-emoji="⚔️" data-color="linear-gradient(135deg,#e0e0e0,#bebebe)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#e0e0e0,#bebebe)">⚔️</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Action</div>
+        <div class="card-name">Draw Joust</div>
+        <div class="card-desc">Draw your vehicle and battle</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="action" data-name="Draw Climber" data-file="Draw_Climber.html" data-emoji="🧗" data-color="linear-gradient(135deg,#d8d8d8,#b8b8b8)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#d8d8d8,#b8b8b8)">🧗</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Action</div>
+        <div class="card-name">Draw Climber</div>
+        <div class="card-desc">Draw legs and climb obstacles</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="idle" data-name="Cookie Clicker" data-file="Cookie_Clicker.html" data-emoji="🍪" data-color="linear-gradient(135deg,#ebebeb,#d0d0d0)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#ebebeb,#d0d0d0)">🍪</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Idle / Clicker</div>
+        <div class="card-name">Cookie Clicker</div>
+        <div class="card-desc">Click cookies, build an empire</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="action" data-name="Clover Pit" data-file="Clover_Pit.html" data-emoji="🍀" data-color="linear-gradient(135deg,#e4e4e4,#c4c4c4)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#e4e4e4,#c4c4c4)">🍀</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Action</div>
+        <div class="card-name">Clover Pit</div>
+        <div class="card-desc">Luck-based arena battles</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="idle" data-name="BitLife" data-file="BitLife.html" data-emoji="👤" data-color="linear-gradient(135deg,#e2e2e2,#c2c2c2)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#e2e2e2,#c2c2c2)">👤</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Simulation</div>
+        <div class="card-name">BitLife</div>
+        <div class="card-desc">Live a text-based life simulator</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="sandbox" data-name="People Playground" data-file="People_Playground.html" data-emoji="🧍" data-color="linear-gradient(135deg,#dcdcdc,#bcbcbc)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#dcdcdc,#bcbcbc)">🧍</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Sandbox</div>
+        <div class="card-name">People Playground</div>
+        <div class="card-desc">Physics sandbox chaos</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="sports" data-name="Basketball Stars" data-file="bsr.html" data-emoji="🏀" data-color="linear-gradient(135deg,#e6e6e6,#c6c6c6)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#e6e6e6,#c6c6c6)">🏀</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Sports</div>
+        <div class="card-name">Basketball Stars</div>
+        <div class="card-desc">Street basketball 1v1 showdowns</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="survival" data-name="Brotato" data-file="Brotato.html" data-emoji="🥔" data-color="linear-gradient(135deg,#e0e0e0,#c0c0c0)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#e0e0e0,#c0c0c0)">🥔</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Survival</div>
+        <div class="card-name">Brotato</div>
+        <div class="card-desc">Roguelite potato survivor</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="action" data-name="Friday Night Funkin'" data-file="fne.html" data-emoji="🎵" data-color="linear-gradient(135deg,#e8e8e8,#c8c8c8)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#e8e8e8,#c8c8c8)">🎵</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Rhythm</div>
+        <div class="card-name">Friday Night Funkin'</div>
+        <div class="card-desc">Rap battle rhythm game</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="action" data-name="Krunker" data-file="kin.html" data-emoji="🎯" data-color="linear-gradient(135deg,#dedede,#bebebe)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#dedede,#bebebe)">🎯</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Action</div>
+        <div class="card-name">Krunker</div>
+        <div class="card-desc">Fast-paced browser FPS</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="action" data-name="Krunker v2" data-file="kin2.html" data-emoji="🔫" data-color="linear-gradient(135deg,#d8d8d8,#b8b8b8)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#d8d8d8,#b8b8b8)">🔫</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Action</div>
+        <div class="card-name">Krunker v2</div>
+        <div class="card-desc">FPS action — version 2</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="action" data-name="Krunker v3" data-file="kin3.html" data-emoji="💥" data-color="linear-gradient(135deg,#d4d4d4,#b4b4b4)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#d4d4d4,#b4b4b4)">💥</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Action</div>
+        <div class="card-name">Krunker v3</div>
+        <div class="card-desc">FPS action — version 3</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="idle" data-name="Learn to Fly Idle" data-file="Learn_to_Fly_Idle.html" data-emoji="🐧" data-color="linear-gradient(135deg,#eaeaea,#cacaca)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#eaeaea,#cacaca)">🐧</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Idle</div>
+        <div class="card-name">Learn to Fly Idle</div>
+        <div class="card-desc">Idle penguin flight upgrades</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="action" data-name="Learn to Fly 3" data-file="Learn_to_Fly_3.html" data-emoji="🚀" data-color="linear-gradient(135deg,#e0e0e0,#c0c0c0)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#e0e0e0,#c0c0c0)">🚀</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Action</div>
+        <div class="card-name">Learn to Fly 3</div>
+        <div class="card-desc">Launch your penguin to space</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="action" data-name="Bowmasters" data-file="Bowmasters.html" data-emoji="🏹" data-color="linear-gradient(135deg,#e4e4e4,#c4c4c4)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#e4e4e4,#c4c4c4)">🏹</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Action</div>
+        <div class="card-name">Bowmasters</div>
+        <div class="card-desc">Aim and shoot at your opponent</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="action" data-name="Bouncemasters" data-file="Bouncemasters.html" data-emoji="⬆️" data-color="linear-gradient(135deg,#dcdcdc,#bcbcbc)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#dcdcdc,#bcbcbc)">⬆️</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Action</div>
+        <div class="card-name">Bouncemasters</div>
+        <div class="card-desc">Bounce as high as possible</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="action" data-name="Bottle Jump 3D" data-file="Bottle_Jump_3D.html" data-emoji="🍾" data-color="linear-gradient(135deg,#e6e6e6,#c6c6c6)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#e6e6e6,#c6c6c6)">🍾</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Action</div>
+        <div class="card-name">Bottle Jump 3D</div>
+        <div class="card-desc">Flip the bottle and land it</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="action" data-name="Cluster Rush" data-file="Cluster_Rush.html" data-emoji="🚛" data-color="linear-gradient(135deg,#e2e2e2,#c2c2c2)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#e2e2e2,#c2c2c2)">🚛</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Action</div>
+        <div class="card-name">Cluster Rush</div>
+        <div class="card-desc">Dodge and jump across trucks</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="sports" data-name="Basket Random" data-file="Basket_Random.html" data-emoji="🏀" data-color="linear-gradient(135deg,#e8e8e8,#c8c8c8)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#e8e8e8,#c8c8c8)">🏅</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Sports</div>
+        <div class="card-name">Basket Random</div>
+        <div class="card-desc">Wacky one-button basketball</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="survival" data-name="Minecraft Beta 1.7.3" data-file="Minecraft_Beta_1_7_3.html" data-emoji="⛏️" data-color="linear-gradient(135deg,#e0e0e0,#bebebe)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#e0e0e0,#bebebe)">⛏️</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Survival</div>
+        <div class="card-name">Minecraft Beta 1.7.3</div>
+        <div class="card-desc">Classic Minecraft in your browser</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="action" data-name="1v1.LoL" data-file="1v1_LoL.html" data-emoji="🏗️" data-color="linear-gradient(135deg,#dadada,#bababa)">
+      <div class="card-thumb">
+        <div class="card-bg" style="background:linear-gradient(135deg,#dadada,#bababa)">🏗️</div>
+        <div class="card-play"><div class="card-play-btn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Action</div>
+        <div class="card-name">1v1.LoL</div>
+        <div class="card-desc">Build and battle royale</div>
+      </div>
+    </div>
+
+    <div class="no-results" id="no-results">
+      <svg viewBox="0 0 24 24" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg>
+      <p>No games match your search.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Game Modal ─── -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">
+        <span class="modal-emoji" id="modal-emoji"></span>
+        <span id="modal-name"></span>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn" id="fullscreen-btn" title="Fullscreen">
+          <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+        </button>
+        <button class="modal-btn" id="close-btn" title="Close">
+          <svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="modal-frame">
+      <iframe id="game-iframe" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2025 VAULTPLAY &nbsp;·&nbsp; 22 free browser games
+</footer>
+
+<script>
+  // ─── Data & refs ───
+  const cards = document.querySelectorAll('.card');
+  const searchEl = document.getElementById('search');
+  const countEl = document.getElementById('game-count');
+  const noResults = document.getElementById('no-results');
+  const modal = document.getElementById('modal');
+  const iframe = document.getElementById('game-iframe');
+  const modalName = document.getElementById('modal-name');
+  const modalEmoji = document.getElementById('modal-emoji');
+  const closeBtn = document.getElementById('close-btn');
+  const fullscreenBtn = document.getElementById('fullscreen-btn');
+
+  let currentCat = 'all';
+
+  // ─── Filter buttons ───
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelector('.filter-btn.active').classList.remove('active');
+      btn.classList.add('active');
+      currentCat = btn.dataset.cat;
+      applyFilters();
+    });
+  });
+
+  // ─── Search ───
+  searchEl.addEventListener('input', applyFilters);
+
+  function applyFilters() {
+    const query = searchEl.value.toLowerCase().trim();
+    let visible = 0;
+
+    cards.forEach(card => {
+      if (card.classList.contains('no-results')) return;
+      const name = card.dataset.name.toLowerCase();
+      const cat = card.dataset.cat;
+      const matchCat = currentCat === 'all' || cat === currentCat;
+      const matchSearch = !query || name.includes(query);
+
+      if (matchCat && matchSearch) {
+        card.style.display = '';
+        visible++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    countEl.textContent = visible + ' game' + (visible !== 1 ? 's' : '');
+    noResults.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  // ─── Open game ───
+  cards.forEach(card => {
+    if (card.classList.contains('no-results')) return;
+    card.addEventListener('click', () => {
+      const file = card.dataset.file;
+      const name = card.dataset.name;
+      const emoji = card.dataset.emoji;
+
+      modalName.textContent = name;
+      modalEmoji.textContent = emoji;
+      iframe.src = file;
+
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  // ─── Close modal ───
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => { iframe.src = ''; }, 300);
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+
+  modal.addEventListener('click', e => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ─── Fullscreen ───
+  fullscreenBtn.addEventListener('click', () => {
+    const frame = document.querySelector('.modal-frame');
+    if (frame.requestFullscreen) frame.requestFullscreen();
+    else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
+  });
+</script>
+</body>
+</html>
